@@ -16,12 +16,16 @@ sort: original
 # '#'开头的只是注释，所以可以随便分类了
 # 注释只能另起一行写，不能在词条后面写
 
-语雀	ygiw
-傻机	wtsm
-傻机机	wssm
+# 平台
 极客	sept
 极客时间	spju
 训练营	yxap
+语雀	ygiw
+
+# 人名
+傻机	wtsm
+傻机机	wssm
+增比	fuxx
 
 # 前端 & 程序开发
 包管理	qtgj
