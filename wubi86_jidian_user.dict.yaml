@@ -16,12 +16,17 @@ sort: original
 # '#'开头的只是注释，所以可以随便分类了
 # 注释只能另起一行写，不能在词条后面写
 
-# 平台
+# 常用词
+不是	gijg
+训练营	yxap
+
+# 平台 & 品牌
 极客	sept
 极客时间	spju
-训练营	yxap
+红米	xaoy
 语雀	ygiw
-不是	gijg
+
+
 
 # 人名
 傻机	wtsm
