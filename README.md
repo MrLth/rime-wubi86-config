@@ -19,8 +19,7 @@ window10 输入法主题： https://github.com/danvim/rime-theme-windows10
 1. 去搜狗词库下载需要的词库
 2. 通过在线工具将词库转为可编辑查看的文本格式
 3. 通过 javaScript 脚本过滤和生成对应词库
-
-1. 1. cd script 移动到 script 目录下
+   1. cd script 移动到 src 目录下
    2. 将通过在线工具转换的文本格式文件重命名为 1.txt 保存在此目录下
    3. node translate.js 生成词库
    4. 将生成的 output.txt 内的内容复制到 wubi86_jidian_user.dict.yaml 文件内
