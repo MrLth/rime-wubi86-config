@@ -21,9 +21,7 @@ patch:
     label_color: 0x888888
     name: "Windows 10"
   style/label_format: " %s"
-  style/font_point: 16
-  # style/label_format: "%s"
-  # style/font_point: 15
+  style/font_point: 15
   style/horizontal: true
   style/inline_preedit: true
   style/layout:
@@ -33,12 +31,8 @@ patch:
     margin_x: 12
     margin_y: 12
     spacing: 16
-    candidate_spacing: 24
+    candidate_spacing: 30
     hilite_spacing: 16
-    hilite_padding: 16
-    # spacing: 10
-    # candidate_spacing: 24
-    # hilite_spacing: 8
-    # hilite_padding: 12
+    hilite_padding: 24
     round_corner: 0
   style/color_scheme: windows10
