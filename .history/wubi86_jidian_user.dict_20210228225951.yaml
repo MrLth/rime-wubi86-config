@@ -49,7 +49,6 @@ sort: original
 透传	tewf
 拖堂	rtip
 好大儿	vdqt
-老父亲  fwus
 
 # 平台 & 品牌
 极客	sept
@@ -432,11 +431,19 @@ sort: original
 直方图	fylt
 指令集	rwwy
 子格	bbst
+安全测试	pwiy
+安卓版本	phts
+安卓测试	phiy
+白盒测试	rwiy
 表单提交	guru
 禅道	pyut
 产品方案	ukyp
+发版测试	ntiy
+数据库测试	oryg
+提交测试	ruiy
 型图	galt
 需求评审	ffyp
+游戏测试	iciy
 
 # 王者荣耀
 大龙	dddx
@@ -467,11 +474,16 @@ sort: original
 # 前端 & 程序开发
 包管理	qtgj
 闭包	ufqn
+编程逻辑	xtll
+编码规范	xdfa
+编码逻辑	xdll
 不可变数据	gsyg
 长链接	tqru
 重构	tgsq
 重绘	tgxw
 纯函数	xbov
+打包工具	rqah
+代码混淆	wdii
 单例	ujwg
 单例模式	uwsa
 单文件组件	uywh
@@ -492,7 +504,6 @@ sort: original
 骨架图	mllt
 函数防抖	bobr
 函数节流	boai
-防抖	byru
 函数式编程	boag
 盒子模型	wbsg
 后代元素	rwfg
