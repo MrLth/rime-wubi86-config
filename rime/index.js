@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 14:43:54
+ * @LastEditTime: 2021-04-25 14:50:39
  * @Description: file content
  */
 const { program } = require('commander');
@@ -126,8 +126,8 @@ function logWord(_code = '') {
 }
 
 function exec(command) {
-  return new Promise((resolve) => {
-    childProcess.exec(command, resolve)
+  return new Promise((resolve, reject) => {
+    childProcess.exec(command, (err) => err ? reject(err) : resolve())
   })
 }
 
@@ -139,7 +139,7 @@ async function write() {
 
 
   await exec(`git add ${dictPath}`)
-  await exec("git comment -m 'update dict'")
+  await exec("git commit -m 'update dict'")
   await new Promise((resolve, reject) =>
     writeFile(
       './output.txt',
