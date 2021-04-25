@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 14:51:31
+ * @LastEditTime: 2021-04-25 14:54:12
  * @Description: file content
  */
 const { program } = require('commander');
@@ -127,7 +127,20 @@ function logWord(_code = '') {
 
 function exec(command) {
   return new Promise((resolve, reject) => {
-    childProcess.exec(command, (err) => err ? reject(err) : resolve())
+    childProcess.exec(command, (err, stdout, stderr) => {
+      if (err) {
+        reject(err)
+        return
+      }
+
+      if (stdout)
+        console.log(stdout)
+
+      if (stderr)
+        console.error(stderr)
+
+      resolve()
+    })
   })
 }
 
