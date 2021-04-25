@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 15:23:15
+ * @LastEditTime: 2021-04-25 15:25:42
  * @Description: file content
  */
 const { program } = require('commander');
@@ -53,8 +53,6 @@ if (isDelete) {
 if (word) {
   const generatedCode = translate(word)
   code = code ?? generatedCode
-
-  console.log(code, generatedCode)
 
   logGenerated(generatedCode)
 
