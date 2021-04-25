@@ -3,15 +3,15 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 15:25:42
+ * @LastEditTime: 2021-04-25 15:30:49
  * @Description: file content
  */
 const { program } = require('commander');
 const { writeFile, readFileSync } = require('fs')
 const childProcess = require('child_process')
-const translate = require('./translate')
+const translate = require('./utils/translate')
 const path = require('path')
-const { dict, dictPath, query } = require('./read-dict')
+const { dict, dictPath, query } = require('./utils/read-dict')
 require("colors");
 
 

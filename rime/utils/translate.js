@@ -2,11 +2,11 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:37:38
- * @LastEditTime: 2021-04-25 15:24:29
+ * @LastEditTime: 2021-04-25 15:30:11
  * @Description: 转码
  */
-const wubiDict = require('./wubi-code')
-const lv1Dict = require('./lv1-simple-code')
+const wubiDict = require('../public/wubi-code')
+const lv1Dict = require('../public/lv1-simple-code')
 
 /**
  * @param {string} source
