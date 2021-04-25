@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 19:54:07
+ * @LastEditTime: 2021-04-25 19:56:49
  * @Description: file content
  */
 const { program } = require('commander');
@@ -187,7 +187,7 @@ async function write() {
   await exec(`git add "${dictPath}"`)
   try {
     await exec("git commit -m 'update dict'")
-    if (update) {
+    if (upload) {
       await exec('git push')
     }
   } catch (e) {
