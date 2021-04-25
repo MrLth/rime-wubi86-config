@@ -11,3 +11,4 @@ wubi86_jidian.userdb
 user.txt
 .history
 weasel.custom.yaml
+node_modules/*
