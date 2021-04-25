@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 15:17:15
+ * @LastEditTime: 2021-04-25 15:19:55
  * @Description: file content
  */
 const { program } = require('commander');
@@ -12,7 +12,6 @@ const childProcess = require('child_process')
 const translate = require('./translate')
 const path = require('path')
 const { dict, dictPath, query } = require('./read-dict')
-
 require("colors");
 
 
@@ -32,6 +31,8 @@ const { word, add, top, index, delete: isDelete } = options
 
 let { code } = options;
 
+
+console.log(dict)
 
 if (isDelete) {
   if (code && word) {
