@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 19:59:45
+ * @LastEditTime: 2021-04-25 20:20:18
  * @Description: file content
  */
 const { program } = require('commander');
@@ -30,7 +30,6 @@ program.parse(process.argv);
 const options = program.opts();
 
 const { word, add, top, index, delete: isDelete, open, upload } = options
-
 let { code } = options;
 
 if (open) {
@@ -94,6 +93,7 @@ if (word) {
 if (code) {
   logCode()
 }
+
 
 // ---------------------------------------------------------------------
 function dictAdd(code, word) {
@@ -185,13 +185,17 @@ async function write() {
       (err) => err ? reject(err) : resolve()
     )
   )
-  await exec(`git add "${dictPath}"`)
-  try {
-    await exec("git commit -m 'update dict'")
-    if (upload) {
-      await exec('git push')
+  if (process.cwd().startsWith(dictPath)) {
+    await exec(`git add "${dictPath}"`)
+    try {
+      await exec("git commit -m 'update dict'")
+      if (upload) {
+        await exec('git push')
+      }
+    } catch (e) {
+      console.log(e)
     }
-  } catch (e) {
-    console.log(e)
+  }else{
+    console.log("你当前未处于 Rime 目录下，修改无法提交至 Git 仓库".gray)
   }
 }
