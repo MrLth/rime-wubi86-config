@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 14:54:12
+ * @LastEditTime: 2021-04-25 14:57:12
  * @Description: file content
  */
 const { program } = require('commander');
@@ -150,9 +150,6 @@ async function write() {
       [...wordSet].map(word => `${word}\t${code}`).join('\n')
   ).join('\n')
 
-
-  await exec(`git add ${dictPath}`)
-  await exec("git commit -m 'dict backup'")
   await new Promise((resolve, reject) =>
     writeFile(
       './output.txt',
@@ -162,5 +159,9 @@ async function write() {
     )
   )
   await exec(`git add ${dictPath}`)
-  await exec("git commit -m 'update dict'")
+  try {
+    await exec("git commit -m 'update dict'")
+  } catch (e) {
+    console.log(e)
+  }
 }
