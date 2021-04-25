@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 20:20:18
+ * @LastEditTime: 2021-04-25 20:25:33
  * @Description: file content
  */
 const { program } = require('commander');
@@ -76,7 +76,7 @@ if (word) {
 
   logWord()
 
-  if (add) {
+  if (add || top) {
     if (top || index) {
       const words = [...(dict.get(code) ?? [])]
       words.splice(top ? 0 : index, 0, word)
@@ -196,6 +196,6 @@ async function write() {
       console.log(e)
     }
   }else{
-    console.log("你当前未处于 Rime 目录下，修改无法提交至 Git 仓库".gray)
+    console.log(`当前未处于 ${dictPath} 目录下，\n修改无法提交至 Git 仓库`.gray)
   }
 }
