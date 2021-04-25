@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 20:25:33
+ * @LastEditTime: 2021-04-25 20:34:04
  * @Description: file content
  */
 const { program } = require('commander');
@@ -70,12 +70,6 @@ if (word) {
   const generatedCode = translate(word)
   code = code ?? generatedCode
 
-  logGenerated(generatedCode)
-
-  logCode()
-
-  logWord()
-
   if (add || top) {
     if (top || index) {
       const words = [...(dict.get(code) ?? [])]
@@ -87,6 +81,13 @@ if (word) {
 
     write()
   }
+
+  logGenerated(generatedCode)
+
+  logCode()
+
+  logWord()
+
   return
 }
 
@@ -107,8 +108,8 @@ function logGenerated(generatedCode) {
   console.log(`generated：`.gray)
   console.log(
     generatedCode
-      ? `${generatedCode}\t${word}\n`
-      : 'none'.gray
+      ? `  ${generatedCode}\t${word}\n`
+      : '  none'.gray
   )
 }
 
@@ -117,14 +118,14 @@ function logCode(word = '') {
   console.log(`code：`.gray)
   console.log(
     (
-      words
+      words.length
         ? words.map(_word => {
           const res = `${code}\t${_word}`
           return word
             ? (word === _word ? '- '.red + res.gray : `  ${res}`)
             : res
         }).join('\n')
-        : 'none'.gray
+        : '  none'.gray
     )
     + '\n')
 }
@@ -135,14 +136,14 @@ function logWord(_code = '') {
   console.log(`word：`.gray)
   console.log(
     (
-      records
+      records.length
         ? records.map(([code, _word]) => {
           const res = `${code}\t${_word}`
           return _code
             ? (code === _code ? '- '.red + res.gray : `  ${res}`)
             : res
         }).join('\n')
-        : 'none'.gray
+        : '  none'.gray
     )
     + '\n'
   )
@@ -195,7 +196,7 @@ async function write() {
     } catch (e) {
       console.log(e)
     }
-  }else{
-    console.log(`当前未处于 ${dictPath} 目录下，\n修改无法提交至 Git 仓库`.gray)
+  } else {
+    console.log(`当前未处于 ${dictPath} 目录下，\n修改无法提交至 Git 仓库\n`.gray)
   }
 }
