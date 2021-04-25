@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 20:34:04
+ * @LastEditTime: 2021-04-25 20:37:29
  * @Description: file content
  */
 const { program } = require('commander');
@@ -113,7 +113,7 @@ function logGenerated(generatedCode) {
   )
 }
 
-function logCode(word = '') {
+function logCode(word = '', add = false) {
   const words = [...(dict.get(code) ?? [])]
   console.log(`code：`.gray)
   console.log(
@@ -122,7 +122,9 @@ function logCode(word = '') {
         ? words.map(_word => {
           const res = `${code}\t${_word}`
           return word
-            ? (word === _word ? '- '.red + res.gray : `  ${res}`)
+            ? (word === _word
+              ? (add ? '+ '.green : '- '.red) + res.gray
+              : `  ${res}`)
             : res
         }).join('\n')
         : '  none'.gray
@@ -130,7 +132,7 @@ function logCode(word = '') {
     + '\n')
 }
 
-function logWord(_code = '') {
+function logWord(_code = '', add = false) {
   const records = query(word)
 
   console.log(`word：`.gray)
