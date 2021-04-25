@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 19:56:49
+ * @LastEditTime: 2021-04-25 19:58:18
  * @Description: file content
  */
 const { program } = require('commander');
@@ -150,6 +150,7 @@ function logWord(_code = '') {
 
 function exec(command) {
   return new Promise((resolve, reject) => {
+    console.log('exec >', command)
     childProcess.exec(command, (err, stdout, stderr) => {
       if (err) {
         reject(err)
