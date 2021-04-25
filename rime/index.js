@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 15:36:01
+ * @LastEditTime: 2021-04-25 15:37:25
  * @Description: file content
  */
 const { program } = require('commander');
@@ -30,8 +30,6 @@ const options = program.opts();
 const { word, add, top, index, delete: isDelete } = options
 
 let { code } = options;
-
-console.log(dict)
 
 if (isDelete) {
   if (code && word) {
