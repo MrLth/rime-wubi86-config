@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 21:01:13
+ * @LastEditTime: 2021-04-25 21:08:04
  * @Description: file content
  */
 const { program } = require('commander');
@@ -31,6 +31,7 @@ const options = program.opts();
 
 const { word, add, top, index, delete: isDelete, open, upload } = options
 let { code } = options;
+let pushed = false
 
 if (open) {
   const source = readFileSync(open, { encoding: 'utf-8' })
@@ -107,11 +108,19 @@ if (word) {
 
   logWord(code, true)
 
+  if (upload && !pushed) {
+    push()
+  }
+
   return
 }
 
 if (code) {
   logCode()
+}
+
+if (upload) {
+  push()
 }
 
 
@@ -218,11 +227,20 @@ async function write() {
       await exec("git commit -m 'update dict'")
       if (upload) {
         await exec('git push')
+        pushed = true
       }
     } catch (e) {
       console.log(e)
     }
   } else {
     console.log(`当前未处于 ${dictPath} 目录下，\n修改无法提交至 Git 仓库\n`.gray)
+  }
+}
+
+async function push() {
+  if (process.cwd().startsWith(dictPath)) {
+    exec('git push')
+  } else {
+    console.log(`当前未处于 ${dictPath} 目录下，\n无法操作 Git 仓库\n`.gray)
   }
 }
