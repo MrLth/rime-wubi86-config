@@ -2,7 +2,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:47:50
- * @LastEditTime: 2021-04-25 15:37:14
+ * @LastEditTime: 2021-04-25 15:46:44
  * @Description: rime 词库读取
  */
 
@@ -43,6 +43,6 @@ function addToDict(code, word) {
 }
 
 function query(word) {
-  const result = new RegExp(`\n(${word}\\t\\w{1,4})\\n`, 'g').exec(dictSource)
+  const result = Array.from(dictSource.matchAll(new RegExp(`\n(${word}\\t\\w{1,4})\\n`, 'g')), x => x[0])
   return result?.map(s => s.trim().split('\t').reverse())
 }
