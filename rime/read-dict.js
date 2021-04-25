@@ -2,7 +2,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:47:50
- * @LastEditTime: 2021-04-25 14:42:27
+ * @LastEditTime: 2021-04-25 15:12:19
  * @Description: rime 词库读取
  */
 

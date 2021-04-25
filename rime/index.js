@@ -3,13 +3,14 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 15:00:49
+ * @LastEditTime: 2021-04-25 15:14:33
  * @Description: file content
  */
 const { program } = require('commander');
-const { writeFile } = require('fs')
+const { writeFile, readFileSync } = require('fs')
 const childProcess = require('child_process')
 const translate = require('./translate')
+const path = require('path')
 const { dict, dictPath, query } = require('./read-dict')
 
 require("colors");
@@ -150,11 +151,14 @@ async function write() {
       [...wordSet].map(word => `${word}\t${code}`).join('\n')
   ).join('\n')
 
+
+  const cfg = readFileSync(path.resolve(__dirname, '.dictconfig.cfg'), { encoding: 'utf-8' })
+
   await new Promise((resolve, reject) =>
     writeFile(
       './output.txt',
-      `\n${outputString}\n1`,
-      'utf8',
+      `${cfg}\n${outputString}\n`,
+      { encoding: 'utf-8' },
       (err) => err ? reject(err) : resolve()
     )
   )
