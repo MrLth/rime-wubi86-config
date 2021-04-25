@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 15:46:54
+ * @LastEditTime: 2021-04-25 16:01:12
  * @Description: file content
  */
 const { program } = require('commander');
@@ -22,14 +22,29 @@ program
   .option('-a, --add', '需配合 -w 和 -c（可选）使用，向本地词库添加词，如果不使用 -c 指定键码，将使用自动生成的键码')
   .option('-t, --top', '需配合 -a 使用，添加词至顶部（键入时第一顺位）')
   .option('-i, --index <type>', '需配合 -a 使用，添加词到指定位置，「-i 0」和「-t」造价')
+  .option('-o, --open <type>', '批量添加，格式与词库保持一致，即「词\t键码」')
 
 program.parse(process.argv);
 
 const options = program.opts();
 
-const { word, add, top, index, delete: isDelete } = options
+const { word, add, top, index, delete: isDelete, open } = options
 
 let { code } = options;
+
+if (open) {
+  const source = readFileSync(open, { encoding: 'utf-8' })
+
+  source.split('\n').map(line => {
+    if (/\t(\w{1,4})$/.test(line)) {
+      const [word, code] = line.splice('\t')
+      dictAdd(code, word)
+    }
+  })
+
+  write()
+  return
+}
 
 if (isDelete) {
   if (code && word) {
@@ -48,7 +63,6 @@ if (isDelete) {
   return
 }
 
-
 if (word) {
   const generatedCode = translate(word)
   code = code ?? generatedCode
@@ -65,20 +79,26 @@ if (word) {
       words.splice(top ? 0 : index, 0, word)
       dict.set(code, new Set(words))
     } else {
-      if (dict.has(code)) {
-        dict.get(code).add(word)
-      } else {
-        dict.set(code, new Set([word]))
-      }
+      dictAdd(code, word)
     }
 
     write()
   }
-} else if (code) {
+  return
+}
+
+if (code) {
   logCode()
 }
 
-
+// ---------------------------------------------------------------------
+function dictAdd(code, word) {
+  if (dict.has(code)) {
+    dict.get(code).add(word)
+  } else {
+    dict.set(code, new Set([word]))
+  }
+}
 function logGenerated(generatedCode) {
   console.log(`generated：`.gray)
   console.log(
