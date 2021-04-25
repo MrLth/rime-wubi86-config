@@ -2,7 +2,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:37:38
- * @LastEditTime: 2021-04-25 15:30:11
+ * @LastEditTime: 2021-04-25 15:35:50
  * @Description: 转码
  */
 const wubiDict = require('../public/wubi-code')

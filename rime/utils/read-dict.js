@@ -2,14 +2,14 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:47:50
- * @LastEditTime: 2021-04-25 15:12:19
+ * @LastEditTime: 2021-04-25 15:37:14
  * @Description: rime 词库读取
  */
 
 const { readFileSync, readdirSync } = require('fs')
 const path = require('path')
 
-const dictPath = path.resolve(__dirname, '../')
+const dictPath = path.resolve(__dirname, '../../')
 
 const dictList = readdirSync(dictPath).filter((s) => /^wubi.*\.dict\.yaml$/.test(s))
 
