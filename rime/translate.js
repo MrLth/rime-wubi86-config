@@ -2,7 +2,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:37:38
- * @LastEditTime: 2021-04-25 11:11:38
+ * @LastEditTime: 2021-04-25 15:24:08
  * @Description: 转码
  */
 const wubiDict = require('./wubi-code')
@@ -13,6 +13,8 @@ const lv1Dict = require('./lv1-simple-code')
  * @return {string|false}
  */
 function translate(source) {
+  console.log(source)
+
   const codeList = []
   for (const char of source) {
     if (!wubiDict[char]) {
@@ -20,6 +22,8 @@ function translate(source) {
     }
     codeList.push(lv1Dict[char] ?? wubiDict[char])
   }
+
+
 
   try {
     switch (codeList.length) {

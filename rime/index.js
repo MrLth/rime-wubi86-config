@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 15:22:00
+ * @LastEditTime: 2021-04-25 15:23:15
  * @Description: file content
  */
 const { program } = require('commander');
@@ -54,6 +54,8 @@ if (word) {
   const generatedCode = translate(word)
   code = code ?? generatedCode
 
+  console.log(code, generatedCode)
+
   logGenerated(generatedCode)
 
   logCode()
@@ -90,7 +92,6 @@ function logGenerated(generatedCode) {
 }
 
 function logCode(word = '') {
-  console.log(dict, code)
   const words = [...dict.get(code)]
   console.log(`code：`.gray)
   console.log(
