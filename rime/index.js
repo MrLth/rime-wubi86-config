@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 16:20:31
+ * @LastEditTime: 2021-04-25 16:24:19
  * @Description: file content
  */
 const { program } = require('commander');
@@ -38,8 +38,8 @@ if (open) {
   source.split('\n').map(line => {
     if (/(\t| +)(\w{1,4})$/.test(line)) {
       let [word, code] = line.split('\t')
-      if (!code){
-        code = line.split(' ').filter(Boolean)
+      if (!code) {
+        [word, code] = line.split(' ').filter(Boolean)
       }
       dictAdd(code, word)
     }
