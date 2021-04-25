@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 16:01:12
+ * @LastEditTime: 2021-04-25 16:20:31
  * @Description: file content
  */
 const { program } = require('commander');
@@ -36,8 +36,11 @@ if (open) {
   const source = readFileSync(open, { encoding: 'utf-8' })
 
   source.split('\n').map(line => {
-    if (/\t(\w{1,4})$/.test(line)) {
-      const [word, code] = line.splice('\t')
+    if (/(\t| +)(\w{1,4})$/.test(line)) {
+      let [word, code] = line.split('\t')
+      if (!code){
+        code = line.split(' ').filter(Boolean)
+      }
       dictAdd(code, word)
     }
   })
@@ -180,7 +183,7 @@ async function write() {
       (err) => err ? reject(err) : resolve()
     )
   )
-  await exec(`git add ${dictPath}`)
+  await exec(`git add "${dictPath}"`)
   try {
     await exec("git commit -m 'update dict'")
   } catch (e) {
