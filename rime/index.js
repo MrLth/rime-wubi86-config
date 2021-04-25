@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 16:24:19
+ * @LastEditTime: 2021-04-25 18:04:24
  * @Description: file content
  */
 const { program } = require('commander');
@@ -112,7 +112,7 @@ function logGenerated(generatedCode) {
 }
 
 function logCode(word = '') {
-  const words = [...dict.get(code)]
+  const words = [...(dict.get(code) ?? [])]
   console.log(`code：`.gray)
   console.log(
     (
