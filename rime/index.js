@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 15:19:55
+ * @LastEditTime: 2021-04-25 15:22:00
  * @Description: file content
  */
 const { program } = require('commander');
@@ -31,8 +31,6 @@ const { word, add, top, index, delete: isDelete } = options
 
 let { code } = options;
 
-
-console.log(dict)
 
 if (isDelete) {
   if (code && word) {
@@ -92,6 +90,7 @@ function logGenerated(generatedCode) {
 }
 
 function logCode(word = '') {
+  console.log(dict, code)
   const words = [...dict.get(code)]
   console.log(`code：`.gray)
   console.log(
