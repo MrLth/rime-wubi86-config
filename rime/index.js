@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 14:59:41
+ * @LastEditTime: 2021-04-25 15:00:49
  * @Description: file content
  */
 const { program } = require('commander');
@@ -73,7 +73,6 @@ if (word) {
       }
     }
 
-    console.log(dict.get(code))
     write()
   }
 } else if (code) {
@@ -154,7 +153,7 @@ async function write() {
   await new Promise((resolve, reject) =>
     writeFile(
       './output.txt',
-      `\n${outputString}\n`,
+      `\n${outputString}\n1`,
       'utf8',
       (err) => err ? reject(err) : resolve()
     )
