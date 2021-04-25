@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 14:57:12
+ * @LastEditTime: 2021-04-25 14:59:41
  * @Description: file content
  */
 const { program } = require('commander');
@@ -73,6 +73,7 @@ if (word) {
       }
     }
 
+    console.log(dict.get(code))
     write()
   }
 } else if (code) {
