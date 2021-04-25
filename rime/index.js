@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 15:14:33
+ * @LastEditTime: 2021-04-25 15:17:15
  * @Description: file content
  */
 const { program } = require('commander');
@@ -156,8 +156,8 @@ async function write() {
 
   await new Promise((resolve, reject) =>
     writeFile(
-      './output.txt',
-      `${cfg}\n${outputString}\n`,
+      path.join(dictPath, 'wubi86_jidian.dict.yaml'),
+      `${cfg}\n\n${outputString}\n`,
       { encoding: 'utf-8' },
       (err) => err ? reject(err) : resolve()
     )
