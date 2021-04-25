@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 20:41:59
+ * @LastEditTime: 2021-04-25 21:00:00
  * @Description: file content
  */
 const { program } = require('commander');
@@ -50,18 +50,37 @@ if (open) {
 }
 
 if (isDelete) {
-  if (code && word) {
-    if (dict.has(code)) {
-      const words = [...(dict.get(code) ?? [])]
+  if (word) {
+    if (code) {
+      if (dict.has(code)) {
+        const words = [...(dict.get(code) ?? [])]
+        const newWords = words.filter(_word => _word !== word)
 
-      logCode(word)
-      logWord(code)
+        if (newWords.length === words.length) {
+          return
+        }
 
-      dict.set(code, new Set(words.filter(_word => _word !== word)))
-      write()
+        logCode(word)
+        logWord(code)
+
+        dict.set(code, new Set(newWords))
+      }
+    } else {
+      const records = query(word)
+
+      if (records.length === 0) {
+        return
+      }
+
+      logWord(null, false, true)
+
+      for (const [code, word] of records) {
+        dict.set(code, new Set([...dict.get(code)].filter(_word => _word !== word)))
+      }
     }
+    write()
   } else {
-    console.error('当使用「-d, --delete」时，必须指定「-w, --word」和「-c, --code」'.red)
+    console.error('当使用「-d, --delete」时，必须指定「-w, --word」\n'.red)
   }
   return
 }
@@ -132,8 +151,11 @@ function logCode(word, add = false) {
     + '\n')
 }
 
-function logWord(_code, add = false) {
+function logWord(_code, add = false, deleteWord = false) {
   const records = query(word)
+  if (add) {
+    records.push([_code, word])
+  }
 
   console.log(`word：`.gray)
   console.log(
@@ -141,9 +163,11 @@ function logWord(_code, add = false) {
       records.length
         ? records.map(([code, _word]) => {
           const res = `${code}\t${_word}`
-          return code === _code
-            ? (add ? '+ '.green : '- '.red) + res.gray
-            : `  ${res}`
+          return deleteWord
+            ? '- '.red + res.gray
+            : (code === _code
+              ? (add ? '+ '.green : '- '.red) + res.gray
+              : `  ${res}`)
         }).join('\n')
         : '  none'.gray
     )
