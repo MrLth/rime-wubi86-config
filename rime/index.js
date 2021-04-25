@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 18:04:24
+ * @LastEditTime: 2021-04-25 19:54:07
  * @Description: file content
  */
 const { program } = require('commander');
@@ -23,12 +23,13 @@ program
   .option('-t, --top', '需配合 -a 使用，添加词至顶部（键入时第一顺位）')
   .option('-i, --index <type>', '需配合 -a 使用，添加词到指定位置，「-i 0」和「-t」造价')
   .option('-o, --open <type>', '批量添加，格式与词库保持一致，即「词\t键码」')
+  .option('-u, --upload', '是否在 write 后 git push')
 
 program.parse(process.argv);
 
 const options = program.opts();
 
-const { word, add, top, index, delete: isDelete, open } = options
+const { word, add, top, index, delete: isDelete, open, upload } = options
 
 let { code } = options;
 
@@ -186,6 +187,9 @@ async function write() {
   await exec(`git add "${dictPath}"`)
   try {
     await exec("git commit -m 'update dict'")
+    if (update) {
+      await exec('git push')
+    }
   } catch (e) {
     console.log(e)
   }
