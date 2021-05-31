@@ -3,7 +3,7 @@
  * @Author: mrlthf11
  * @LastEditors: mrlthf11
  * @Date: 2021-04-25 09:22:54
- * @LastEditTime: 2021-04-25 21:08:04
+ * @LastEditTime: 2021-04-26 14:02:41
  * @Description: file content
  */
 const { program } = require('commander');
@@ -23,13 +23,14 @@ program
   .option('-t, --top', '需配合 -a 使用，添加词至顶部（键入时第一顺位）')
   .option('-i, --index <type>', '需配合 -a 使用，添加词到指定位置，「-i 0」和「-t」造价')
   .option('-o, --open <type>', '批量添加，格式与词库保持一致，即「词\t键码」')
+  .option('-f, --filter <type>', "脚本提供「word」和「code」两个变量，让你可以使用一段 js 语句来筛选并查看词库，如「code.startsWith('kh')」")
   .option('-u, --upload', '是否在 write 后 git push')
 
 program.parse(process.argv);
 
 const options = program.opts();
 
-const { word, add, top, index, delete: isDelete, open, upload } = options
+const { word, add, top, index, delete: isDelete, open, filter, upload } = options
 let { code } = options;
 let pushed = false
 
@@ -50,6 +51,28 @@ if (open) {
   return
 }
 
+if (filter) {
+  const filterFn = new Function('word', 'code', `return ${filter}`)
+  let head = true
+  for (const [code, wordSet] of dict) {
+    for (const word of wordSet) {
+      if (filterFn(word, code)) {
+        if (head) {
+          console.log(`${code}：`.gray)
+          head = false
+        }
+        console.log(`${code}\t${word}`)
+      }
+    }
+    if (!head) {
+      head = true
+      console.log('')
+    }
+  }
+
+  return
+}
+
 if (isDelete) {
   if (word) {
     if (code) {
@@ -61,8 +84,8 @@ if (isDelete) {
           return
         }
 
-        logCode(word)
-        logWord(code)
+        logCode(word, 'delete')
+        logWord(code, 'delSingle')
 
         dict.set(code, new Set(newWords))
       }
@@ -73,7 +96,10 @@ if (isDelete) {
         return
       }
 
-      logWord(null, false, true)
+      for (const [_code] of records) {
+        logCode(word, 'delete', _code)
+      }
+      logWord(null, 'delWord')
 
       for (const [code, word] of records) {
         dict.set(code, new Set([...dict.get(code)].filter(_word => _word !== word)))
@@ -90,9 +116,10 @@ if (word) {
   const generatedCode = translate(word)
   code = code ?? generatedCode
 
-  if (add || top) {
+  const isAdd = add || top || index
+  if (isAdd) {
     if (top || index) {
-      const words = [...(dict.get(code) ?? [])]
+      const words = [...(dict.get(code) ?? [])].filter(_word => _word !== word)
       words.splice(top ? 0 : index, 0, word)
       dict.set(code, new Set(words))
     } else {
@@ -104,11 +131,11 @@ if (word) {
 
   logGenerated(generatedCode)
 
-  logCode(word, true)
+  logCode(word, isAdd ? 'add' : 'normal')
 
-  logWord(code, true)
+  logWord(code, isAdd ? 'add' : 'normal')
 
-  if (upload && !pushed) {
+  if (upload) {
     push()
   }
 
@@ -132,6 +159,7 @@ function dictAdd(code, word) {
     dict.set(code, new Set([word]))
   }
 }
+
 function logGenerated(generatedCode) {
   console.log(`generated：`.gray)
   console.log(
@@ -141,42 +169,62 @@ function logGenerated(generatedCode) {
   )
 }
 
-function logCode(word, add = false) {
-  const words = [...(dict.get(code) ?? [])]
+/**
+ * @param {string} $word
+ * @param {"normal"|"add"|"delete"} $status
+ */
+function logCode($word, $status = "normal", $code = code) {
+  const words = [...(dict.get($code) ?? [])]
   console.log(`code：`.gray)
   console.log(
     (
       words.length
         ? words.map(_word => {
-          const res = `${code}\t${_word}`
-          return word
-            ? (word === _word
-              ? (add ? '+ '.green : '- '.red) + res.gray
-              : `  ${res}`)
-            : res
+          const res = `${$code}\t${_word}`
+
+          switch ($status) {
+            case "add":
+              return _word === $word ? `+ ${res}`.green : `  ${res}`;
+            case "delete":
+              return _word === $word ? `- ${res}`.red : `  ${res}`;
+            case "normal":
+            default:
+              return `  ${res}`
+          }
         }).join('\n')
         : '  none'.gray
     )
     + '\n')
 }
 
-function logWord(_code, add = false, deleteWord = false) {
+/**
+ * @param {string} $code
+ * @param {"normal"|"add"|"delSingle"|"delWord"} $status
+ */
+function logWord($code, $status = "normal") {
   const records = query(word)
-  if (add) {
-    records.push([_code, word])
+  if (add && !records.find(([_code]) => _code === $code)) {
+    records.push([$code, word])
   }
 
   console.log(`word：`.gray)
   console.log(
     (
       records.length
-        ? records.map(([code, _word]) => {
-          const res = `${code}\t${_word}`
-          return deleteWord
-            ? '- '.red + res.gray
-            : (code === _code
-              ? (add ? '+ '.green : '- '.red) + res.gray
-              : `  ${res}`)
+        ? records.map(([_code, _word]) => {
+          const res = `${_code}\t${_word}`
+
+          switch ($status) {
+            case "add":
+              return _code === $code ? `+ ${res}`.green : `  ${res}`;
+            case "delSingle":
+              return _code === $code ? `- ${res}`.red : `  ${res}`;
+            case "delWord":
+              return `- ${res}`.red
+            case "normal":
+            default:
+              return `  ${res}`
+          }
         }).join('\n')
         : '  none'.gray
     )
@@ -221,26 +269,34 @@ async function write() {
       (err) => err ? reject(err) : resolve()
     )
   )
-  if (process.cwd().startsWith(dictPath)) {
-    await exec(`git add "${dictPath}"`)
-    try {
-      await exec("git commit -m 'update dict'")
-      if (upload) {
-        await exec('git push')
-        pushed = true
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  } else {
-    console.log(`当前未处于 ${dictPath} 目录下，\n修改无法提交至 Git 仓库\n`.gray)
+
+  if (upload) {
+    await push()
   }
 }
 
 async function push() {
-  if (process.cwd().startsWith(dictPath)) {
-    exec('git push')
-  } else {
-    console.log(`当前未处于 ${dictPath} 目录下，\n无法操作 Git 仓库\n`.gray)
+  if (!pushed) {
+    if (process.cwd().startsWith(dictPath)) {
+      try {
+        await exec(`git add "${dictPath}"`)
+        await exec("git commit -m 'update dict'")
+      } catch (e) {
+        console.log(e)
+      }
+      let isSuccuss = false
+      while (!isSuccuss) {
+        try {
+          await exec('git push')
+          isSuccuss = true
+          pushed = true
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+    } else {
+      console.log(`当前未处于 ${dictPath} 目录下，\n无法操作 Git 仓库\n`.gray)
+    }
   }
 }
