@@ -1,3 +1,10 @@
+<!--
+ * @Author: mrlthf11
+ * @LastEditors: mrlthf11
+ * @Date: 2021-02-26 10:34:52
+ * @LastEditTime: 2021-08-28 21:52:32
+ * @Description: file content
+-->
 # Rime 输入法配置指南
 
 ### 参考文章和链接
@@ -18,9 +25,4 @@ window10 输入法主题： https://github.com/danvim/rime-theme-windows10
 
 1. 去搜狗词库下载需要的词库
 2. 通过在线工具将词库转为可编辑查看的文本格式
-3. 通过 javaScript 脚本过滤和生成对应词库
-   1. cd script 移动到 src 目录下
-   2. 将通过在线工具转换的文本格式文件重命名为 1.txt 保存在此目录下
-   3. node translate.js 生成词库
-   4. 将生成的 output.txt 内的内容复制到 wubi86_jidian_user.dict.yaml 文件内
-   5. 重新部署 Rime
+3. 在当前目录下安装 rime-thesaurus-cli: npm link ./rime
